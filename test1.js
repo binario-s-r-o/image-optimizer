@@ -1,39 +1,14 @@
-const { prepareTransformManifest } = require('./src/planner');
+const fs = require('fs');
+const sharp = require('sharp');
 
-const preset = {
-  manifest: {
-    enable: true,
-    name: 'image-manifest.json',
-    save: './path/to/dir',
-  },
-  extraFormats: ['avif', 'webp'],
-  original: {
-    maxWidth: 2560, // in pixels
-    maxHeight: 1440, // in pixels
-    strategy: 'fit', // 'fit' | 'cover' | 'contain'; default -> 'fit'
-    allowedFormats: ['jpeg', 'png', 'gif'],
-    fallbackFormat: 'jpeg',
-  },
-  sizes: [
-    {
-      suffix: '-sm',
-      width: 640,
-    },
-    {
-      suffix: '-md',
-      width: 1080,
-    },
-    {
-      suffix: '-lg',
-      width: 1920,
-    },
-  ],
-};
+const preset = require('./sample/image-presets');
+const { toSharp, prepareFormatList } = require('./src/planner');
 
-const meta = { width: 2560, format: 'png' };
+const buf = fs.readFileSync(`${__dirname}/sample/about-us.jpg`);
 
-const file = { dirname: '/img', basename: 'img223' };
-
-console.log(
-  JSON.stringify(prepareTransformManifest(preset, file, meta), null, 2)
-);
+sharp(buf)
+  .metadata()
+  .then((meta) => {
+    const fl = prepareFormatList(preset, meta);
+    console.log(JSON.stringify(fl, null, 2));
+  });

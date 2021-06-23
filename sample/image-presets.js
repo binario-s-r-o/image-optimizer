@@ -1,35 +1,38 @@
 module.exports = {
   manifest: {
     enable: true,
-    name: "image-manifest.json",
-    save: "./path/to/dir",
+    name: 'image-manifest.json',
+    save: './path/to/dir',
   },
-  extraFormats: ["avif", "webp"],
+  extraFormats: ['avif', 'webp'],
   original: {
+    // max dimensions -> does not upscale
     maxWidth: 2560, // in pixels
     maxHeight: 1440, // in pixels
-    strategy: 'fit', // 'fit' | 'cover' | 'contain'; default -> 'fit'
     allowedFormats: ['jpeg', 'png', 'gif'],
-    fallbackFormat: 'jpeg',
+    fallbackFormat: 'png',
+  },
+  sharpFormatSettings: {
+    // future enhancement - not implemented yet
+    jpeg: { quality: 80 }, // https://sharp.pixelplumbing.com/api-output#jpeg
+    png: {}, // https://sharp.pixelplumbing.com/api-output#png
+    webp: {}, // https://sharp.pixelplumbing.com/api-output#webp
+    avif: {}, // https://sharp.pixelplumbing.com/api-output#avif
   },
   sizes: [
     {
-      name: "small", // maybe not needed?
-      suffix: "-sm", // optional
-      maxWidth: 640, // required
-      height: 360, // optional
+      suffix: '-sm',
+      width: 640,
+      sharpFormatSettings: {}, // Override global format settings per size
     },
     {
-      name: "medium", // maybe not needed?
-      suffix: "-md", // optional
-      width: 1080, // required
+      suffix: '-md',
+      width: 1080,
       height: 720, // optional
     },
     {
-      name: "large", // maybe not needed?
-      suffix: "-lg", // optional
-      maxWidth: 1920, // required
-      height: 1080, // optional
+      suffix: '-lg',
+      width: 1920,
     },
   ],
 };
