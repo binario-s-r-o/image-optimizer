@@ -1,0 +1,29 @@
+{
+  "name": "@binario/image-optimizer",
+  "version": "0.1.0",
+  "description": "Responsive image optimizations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "binario",
+  "license": "MIT",
+  "dependencies": {
+    "aspect-ratio": "^2.1.1",
+    "gulp": "^4.0.2",
+    "monet": "^0.9.2",
+    "ramda": "^0.27.1",
+    "rxjs": "^7.1.0",
+    "sharp": "^0.28.3",
+    "through2": "^4.0.2",
+    "vinyl": "^2.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.29.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-ramda": "^2.5.1"
+  }
+}
