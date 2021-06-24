@@ -15,20 +15,15 @@ const {
   pathOr,
   map,
   converge,
-  // prop,
   T,
   nthArg,
   pickBy,
   flip,
   mergeDeepLeft,
   assoc,
+  over,
+  lensPath,
 } = require('ramda');
-
-// 1. prepare sizes based on meta and preset
-// 2. prepare original format based on meta and preset
-// 3. prepare formats list
-//    - list of objects containing format, mime, sizes
-//    - sizes contain filenames and sizes
 
 const RESIZE_PROPS = [
   'width',
@@ -40,6 +35,52 @@ const RESIZE_PROPS = [
   'withoutEnlargement',
   'fastShrinkOnLoad',
 ];
+
+const extractSizeResizeProps = pickBy(
+  pipe(nthArg(1), flip(includes)(RESIZE_PROPS))
+);
+
+const computeResizeProps = curryN(2, (preset, size) =>
+  pipe(
+    applySpec({
+      width: pathOr(2560, ['original', 'maxWidth']),
+      height: pathOr(1440, ['original', 'maxHeight']),
+      withoutEnlargement: T,
+      fit: always('contain'),
+    }),
+    mergeDeepLeft(extractSizeResizeProps(size))
+  )(preset)
+);
+
+const computeFormatProps = curryN(3, (preset, format, size) =>
+  pipe(
+    converge(mergeDeepLeft, [
+      pathOr({}, ['size', 'sharpFormatSettings', format]),
+      pathOr({}, ['preset', 'sharpFormatSettings', format]),
+    ]),
+    assoc('id', format)
+  )({ size, preset })
+);
+
+const createSizeSharpConfig = curryN(3, (preset, format, size) =>
+  applySpec({
+    resize: computeResizeProps(preset),
+    format: computeFormatProps(preset, format),
+  })(size)
+);
+
+const sizeMsharpConfigSizeMapper = curryN(3, (preset, format, size) =>
+  converge(assoc('sharp'), [createSizeSharpConfig(preset, format), identity])(
+    size
+  )
+);
+
+const sharpConfigFormatListMapper = curryN(2, (preset, item) =>
+  over(
+    lensPath(['sizes']),
+    map(sizeMsharpConfigSizeMapper(preset, item.format))
+  )(item)
+);
 
 const prepareSizes = curryN(2, (preset, meta) =>
   pipe(
@@ -80,63 +121,9 @@ const prepareFormatList = curryN(2, (preset, meta) =>
     converge(append, [
       prepareOriginalFormat(preset, meta),
       prepareExtraFormats(preset),
-    ])
+    ]),
+    map(sharpConfigFormatListMapper(preset))
   )(meta)
 );
 
-// const prepareTransformManifest = curryN(3, (preset, file, meta) =>
-//   applySpec({
-//     file: pipe(
-//       always(file),
-//       applySpec({
-//         cwd: prop('cwd'),
-//         dirname: prop('dirname'),
-//         basename: prop('basename'),
-//       })
-//     ),
-//     formatList: prepareFormatList(preset),
-//   })(meta)
-// );
-
-const extractSizeResizeProps = pickBy(
-  pipe(nthArg(1), flip(includes)(RESIZE_PROPS))
-);
-
-const computeResizeProps = curryN(2, (preset, size) =>
-  pipe(
-    applySpec({
-      width: pathOr(2560, ['original', 'maxWidth']),
-      height: pathOr(1440, ['original', 'maxHeight']),
-      withoutEnlargement: T,
-      fit: always('contain'),
-    }),
-    mergeDeepLeft(extractSizeResizeProps(size))
-  )(preset)
-);
-
-const computeFormatProps = curryN(3, (preset, format, size) =>
-  pipe(
-    converge(mergeDeepLeft, [
-      pathOr({}, ['size', 'sharpFormatSettings', format]),
-      pathOr({}, ['preset', 'sharpFormatSettings', format]),
-    ]),
-    assoc('id', format)
-  )({ size, preset })
-);
-
-const toSharp = curryN(3, (preset, format, size) =>
-  applySpec({
-    resize: computeResizeProps(preset),
-    format: computeFormatProps(preset, format),
-  })(size)
-);
-
-// resize :: pick size props by RESIZE_PROPS, deep merge to defaults set by original image
-// toFormat :: pick global format options from preset, pick size specific format options
-//             merge together
-// should result in: {
-//   resize: { width: ..., height: ..., withoutEnlargement: true, ...},
-//   format: {id: 'png', ...otherOptions}
-// }
-
-module.exports = { prepareFormatList, toSharp };
+module.exports = { prepareFormatList };

@@ -6,7 +6,7 @@ const resize = invoker(1, 'resize');
 const toFormat = invoker(1, 'toFormat');
 const toBuffer = invoker(0, 'toBuffer');
 
-const processFile = curryN(2, (buf, sharpConf) =>
+const processFile$ = curryN(2, (buf, sharpConf) =>
   defer(() =>
     pipe(
       sharp,
@@ -17,4 +17,6 @@ const processFile = curryN(2, (buf, sharpConf) =>
   )
 );
 
-module.exports = { processFile };
+const getImageMetaP = (img) => sharp(img).metadata();
+
+module.exports = { processFile$, getImageMetaP };
