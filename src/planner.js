@@ -4,7 +4,6 @@ const {
   propOr,
   filter,
   pathSatisfies,
-  lt,
   path,
   includes,
   ifElse,
@@ -23,6 +22,7 @@ const {
   assoc,
   over,
   lensPath,
+  gt,
 } = require('ramda');
 
 const RESIZE_PROPS = [
@@ -85,7 +85,7 @@ const sharpConfigFormatListMapper = curryN(2, (preset, item) =>
 const prepareSizes = curryN(2, (preset, meta) =>
   pipe(
     propOr([], 'sizes'),
-    filter(pathSatisfies(lt(meta.width))),
+    filter(pathSatisfies(gt(meta.width), ['width'])),
     append({ original: true }) // append object to force original transformation
   )(preset)
 );
