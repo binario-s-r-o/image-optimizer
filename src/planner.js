@@ -46,7 +46,7 @@ const computeResizeProps = curryN(2, (preset, size) =>
       width: pathOr(2560, ['original', 'maxWidth']),
       height: pathOr(1440, ['original', 'maxHeight']),
       withoutEnlargement: T,
-      fit: always('contain'),
+      fit: always('inside'),
     }),
     mergeDeepLeft(extractSizeResizeProps(size))
   )(preset)
