@@ -3,8 +3,9 @@ module.exports = {
     commonjs: true,
     es2021: true,
     node: true,
+    mocha: true,
   },
-  plugins: ['prettier', 'ramda'],
+  plugins: ['prettier', 'ramda', 'mocha'],
   extends: ['airbnb-base', 'prettier'],
   parserOptions: {
     ecmaVersion: 12,

@@ -1,9 +1,4 @@
 module.exports = {
-  manifest: {
-    enable: true,
-    name: 'image-manifest.json',
-    save: './path/to/dir',
-  },
   extraFormats: ['avif', 'webp'],
   original: {
     // max dimensions -> does not upscale

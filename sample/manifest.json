@@ -1,0 +1,179 @@
+{
+  "img/about-us.jpg": {
+    "sources": [
+      {
+        "sizes": [
+          {
+            "path": "img/about-us-sm.avif",
+            "width": 640
+          },
+          {
+            "path": "img/about-us-md.avif",
+            "width": 1080
+          },
+          {
+            "path": "img/about-us-lg.avif",
+            "width": 1920
+          },
+          {
+            "path": "img/about-us.avif"
+          }
+        ],
+        "format": "avif",
+        "mime": "image/avif",
+        "srcset": "img/about-us-sm.avif 640w, img/about-us-md.avif 1080w, img/about-us-lg.avif 1920w, img/about-us.avif"
+      },
+      {
+        "sizes": [
+          {
+            "path": "img/about-us-sm.webp",
+            "width": 640
+          },
+          {
+            "path": "img/about-us-md.webp",
+            "width": 1080
+          },
+          {
+            "path": "img/about-us-lg.webp",
+            "width": 1920
+          },
+          {
+            "path": "img/about-us.webp"
+          }
+        ],
+        "format": "webp",
+        "mime": "image/webp",
+        "srcset": "img/about-us-sm.webp 640w, img/about-us-md.webp 1080w, img/about-us-lg.webp 1920w, img/about-us.webp"
+      },
+      {
+        "sizes": [
+          {
+            "path": "img/about-us-sm.jpeg",
+            "width": 640
+          },
+          {
+            "path": "img/about-us-md.jpeg",
+            "width": 1080
+          },
+          {
+            "path": "img/about-us-lg.jpeg",
+            "width": 1920
+          },
+          {
+            "path": "img/about-us.jpeg"
+          }
+        ],
+        "format": "jpeg",
+        "mime": "image/jpeg",
+        "srcset": "img/about-us-sm.jpeg 640w, img/about-us-md.jpeg 1080w, img/about-us-lg.jpeg 1920w, img/about-us.jpeg"
+      }
+    ],
+    "hw_ratio": 0.5013262599469496
+  },
+  "img/black-arrow.svg": {
+    "sources": [
+      {
+        "sizes": [
+          {
+            "path": "img/black-arrow.png"
+          }
+        ],
+        "format": "png",
+        "mime": "image/png",
+        "srcset": "img/black-arrow.png"
+      },
+      {
+        "sizes": [
+          {
+            "path": "img/black-arrow.webp"
+          }
+        ],
+        "format": "webp",
+        "mime": "image/webp",
+        "srcset": "img/black-arrow.webp"
+      },
+      {
+        "sizes": [
+          {
+            "path": "img/black-arrow.avif"
+          }
+        ],
+        "format": "avif",
+        "mime": "image/avif",
+        "srcset": "img/black-arrow.avif"
+      }
+    ],
+    "hw_ratio": 2.1
+  },
+  "img/sample.jpg": {
+    "sources": [
+      {
+        "sizes": [
+          {
+            "path": "img/sample-sm.avif",
+            "width": 640
+          },
+          {
+            "path": "img/sample-md.avif",
+            "width": 1080
+          },
+          {
+            "path": "img/sample-lg.avif",
+            "width": 1920
+          },
+          {
+            "path": "img/sample.avif"
+          }
+        ],
+        "format": "avif",
+        "mime": "image/avif",
+        "srcset": "img/sample-sm.avif 640w, img/sample-md.avif 1080w, img/sample-lg.avif 1920w, img/sample.avif"
+      },
+      {
+        "sizes": [
+          {
+            "path": "img/sample-sm.webp",
+            "width": 640
+          },
+          {
+            "path": "img/sample-md.webp",
+            "width": 1080
+          },
+          {
+            "path": "img/sample-lg.webp",
+            "width": 1920
+          },
+          {
+            "path": "img/sample.webp"
+          }
+        ],
+        "format": "webp",
+        "mime": "image/webp",
+        "srcset": "img/sample-sm.webp 640w, img/sample-md.webp 1080w, img/sample-lg.webp 1920w, img/sample.webp"
+      },
+      {
+        "sizes": [
+          {
+            "path": "img/sample-sm.jpeg",
+            "width": 640
+          },
+          {
+            "path": "img/sample-md.jpeg",
+            "width": 1080
+          },
+          {
+            "path": "img/sample-lg.jpeg",
+            "width": 1920
+          },
+          {
+            "path": "img/sample.jpeg"
+          }
+        ],
+        "format": "jpeg",
+        "mime": "image/jpeg",
+        "srcset": "img/sample-sm.jpeg 640w, img/sample-md.jpeg 1080w, img/sample-lg.jpeg 1920w, img/sample.jpeg"
+      }
+    ],
+    "hw_ratio": 0.6595446584938705
+  }
+}

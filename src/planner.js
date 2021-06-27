@@ -23,7 +23,11 @@ const {
   over,
   lensPath,
   gt,
+  defaultTo,
+  mergeDeepRight,
 } = require('ramda');
+
+const DEFAULT_PRESET = require('./defaultPreset');
 
 const RESIZE_PROPS = [
   'width',
@@ -69,7 +73,7 @@ const createSizeSharpConfig = curryN(3, (preset, format, size) =>
   })(size)
 );
 
-const sizeMsharpConfigSizeMapper = curryN(3, (preset, format, size) =>
+const sizeSharpConfigMapper = curryN(3, (preset, format, size) =>
   converge(assoc('sharp'), [createSizeSharpConfig(preset, format), identity])(
     size
   )
@@ -78,7 +82,7 @@ const sizeMsharpConfigSizeMapper = curryN(3, (preset, format, size) =>
 const sharpConfigFormatListMapper = curryN(2, (preset, item) =>
   over(
     lensPath(['sizes']),
-    map(sizeMsharpConfigSizeMapper(preset, item.format))
+    map(sizeSharpConfigMapper(preset, item.format))
   )(item)
 );
 
@@ -115,7 +119,7 @@ const prepareOriginalFormat = curryN(3, (preset, meta, sizes) =>
   )(preset)
 );
 
-const prepareFormatList = curryN(2, (preset, meta) =>
+const prepareFormatListSafe = curryN(2, (meta, preset) =>
   pipe(
     prepareSizes(preset),
     converge(append, [
@@ -124,6 +128,14 @@ const prepareFormatList = curryN(2, (preset, meta) =>
     ]),
     map(sharpConfigFormatListMapper(preset))
   )(meta)
+);
+
+const prepareFormatList = curryN(2, (preset, meta) =>
+  pipe(
+    defaultTo({}),
+    mergeDeepRight(DEFAULT_PRESET),
+    prepareFormatListSafe(meta)
+  )(preset)
 );
 
 module.exports = { prepareFormatList };
