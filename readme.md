@@ -5,19 +5,17 @@ This module provides an easy way to generate responsive image variants.
 ## Integrations
 
 - Gulp
-- Rollup
+- TODO: webpack
+- TODO: rollup
 
 ## Data structures
 
 ### Presets config
+The tool currently does **NOT** load the preset file automatically and it is upto the user whether to place the configuration inline to gulp file or whether to create a separate configuration file and manually require it in the gulp file.
 
+#### Example configuration
 ```javascript
 module.exports = {
-  manifest: {
-    enable: true,
-    name: 'image-manifest.json',
-    save: './path/to/dir',
-  },
   extraFormats: ['avif', 'webp'],
   original: {
     maxWidth: 2560, // in pixels
@@ -25,7 +23,7 @@ module.exports = {
     allowedFormats: ['jpeg', 'png', 'gif'],
     fallbackFormat: 'jpeg',
   },
-  sharpFormatSettings: {
+  sharpFormatSettings: { // global format settings
     jpeg: {}, // https://sharp.pixelplumbing.com/api-output#jpeg
     png: {}, // https://sharp.pixelplumbing.com/api-output#png
     webp: {}, // https://sharp.pixelplumbing.com/api-output#webp
@@ -35,6 +33,8 @@ module.exports = {
     {
       suffix: '-sm',
       width: 640,
+      // size specific format settings - overrides global format settings
+      sharpFormatSettings: {},
     },
     {
       suffix: '-md',
@@ -48,28 +48,47 @@ module.exports = {
 }
 ```
 
-### Manifest output
+### Gulp Manifest output
 
 ```json
 {
   "/path/to/img1.jpeg": {
     "hw_ratio": 0.5625,
-    "original": {
-      "format": "jpeg",
-      "uri": "/path/to/img1.jpeg"
-    },
     "sources": [
       {
         "mime": "image/avif",
-        "srcset": "/path/to/img1-sm.avif 640w, ..."
+        "srcset": "/path/to/img1-sm.avif 640w, ...",
+        "sizes": [
+          {
+            "path": "/path/to/img1-sm.avif",
+            "width": 640
+          },
+          {
+            "path": "/path/to/img1-md.avif",
+            "width": 1080
+          },
+          {
+            "path": "/path/to/img1-lg.avif",
+            "width": 1920
+          },
+          {
+            "path": "/path/to/img1.avif"
+          }
+        ]
       },
       {
         "mime": "image/webp",
-        "srcset": "/path/to/img1-sm.webp 640w, ..."
+        "srcset": "/path/to/img1-sm.webp 640w, ...",
+        "sizes": [{
+          // ...
+        }]
       },
       {
         "mime": "image/jpeg",
         "srcset": "/path/to/img1-sm.jpeg 640w, ...",
+        "sizes": [{
+          // ...
+        }]
       }
     ]
   }
