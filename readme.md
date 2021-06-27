@@ -12,7 +12,7 @@ This module provides an easy way to generate responsive image variants.
 ### Presets config
 
 ```javascript
-module.eports = {
+module.exports = {
   manifest: {
     enable: true,
     name: 'image-manifest.json',
@@ -25,7 +25,7 @@ module.eports = {
     allowedFormats: ['jpeg', 'png', 'gif'],
     fallbackFormat: 'jpeg',
   },
-  sharpFormatSettings: { // future enhancement - not implemented yet
+  sharpFormatSettings: {
     jpeg: {}, // https://sharp.pixelplumbing.com/api-output#jpeg
     png: {}, // https://sharp.pixelplumbing.com/api-output#png
     webp: {}, // https://sharp.pixelplumbing.com/api-output#webp
