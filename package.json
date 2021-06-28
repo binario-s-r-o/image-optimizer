@@ -3,6 +3,14 @@
   "version": "0.1.0",
   "description": "Responsive image optimizations for gulp and other build tools",
   "main": "./src/index.js",
+  "files": [
+    "src/index.js",
+    "src/gulpTask.js",
+    "src/defaultPreset.js",
+    "src/manifest.js",
+    "src/sharp.js",
+    "readme.md"
+  ],
   "scripts": {
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src",
