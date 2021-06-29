@@ -9,8 +9,42 @@ This module provides an easy way to generate responsive image variants.
 - TODO: webpack
 - TODO: rollup
 
-## Data structures
+## Gulpfile example
+```javascript
+const { src, dest, watch, lastRun } = require('gulp');
 
+const { gulpResponsiveImages, collectManifest } = require('../src/gulpTask');
+const preset = require('./image-presets');
+
+// build recreating all images and producing fresh manifest
+// (does not clean old images from dist - that must be done manually)
+const images = () =>
+  src('img/**')
+    .pipe(gulpResponsiveImages({ preset }))
+    .pipe(collectManifest({ path: `${__dirname}/manifest.json` }))
+    .pipe(dest('dist/img'));
+
+const imagesIncremental = () =>
+  src('img/**', { since: lastRun(imagesIncremental) /* since - incremental build */ })
+    .pipe(gulpResponsiveImages({ preset }))
+    .pipe(
+      collectManifest({
+        path: `${__dirname}/manifest.json`,
+        // required for imcremental builds so the manifest is modified
+        // rather than overriden with each new file
+        mergeExisting: true,
+      })
+    )
+    .pipe(dest('dist/img'));
+
+const watchImages = () => {
+  watch('img/**', imagesIncremental);
+};
+
+module.exports = { images, watchImages };
+```
+
+## Data structures
 ### Presets config
 The tool currently does **NOT** load the preset file automatically and it is upto the user whether to place the configuration inline to gulp file or whether to create a separate configuration file and manually require it in the gulp file.
 

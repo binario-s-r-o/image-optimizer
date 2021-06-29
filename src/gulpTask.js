@@ -1,9 +1,10 @@
 const { relative: relativePath } = require('path');
 const fs = require('fs');
-const { curryN, map } = require('ramda');
+const { curryN, map, mergeDeepRight } = require('ramda');
 const { merge } = require('rxjs');
 const { map: rxMap, tap, ignoreElements } = require('rxjs/operators');
 const through2 = require('through2');
+const log = require('fancy-log');
 
 const { extractFragment, fragmentsToManifest } = require('./manifest');
 const { prepareFormatList } = require('./planner');
@@ -22,6 +23,9 @@ const prepareFormatSize = curryN(4, (file, hwRatio, format, size) => {
   };
 
   return processFile$(output.contents, size.sharp).pipe(
+    tap(() => {
+      log(`Producing output image: ${relativePath(output.cwd, output.path)}`);
+    }),
     rxMap((buf) => {
       output.contents = buf;
       return output;
@@ -34,12 +38,13 @@ const prepareFormat$ = curryN(3, (file, hwRatio, format) => {
   return merge(...sizes);
 });
 
-const gulpResponsiveImages = (preset) =>
+const gulpResponsiveImages = ({ preset } = {}) =>
   through2.obj(async function transformer(file, enc, done) {
     if (file.isDirectory()) {
       return done();
     }
     const meta = await getImageMetaP(file.contents);
+    log(`Processing image: ${relativePath(file.cwd, file.path)}`);
     const formatList = prepareFormatList(preset, meta);
 
     await merge(
@@ -54,9 +59,16 @@ const gulpResponsiveImages = (preset) =>
     return done();
   });
 
-const collectManifest = ({ writeTo } = {}) => {
-  if (!writeTo) {
-    throw new Error('writeTo is required');
+const collectManifest = ({ path, mergeExisting = false } = {}) => {
+  if (!path) {
+    throw new Error('path is required');
+  }
+
+  let originalManifest = {};
+
+  if (mergeExisting && fs.existsSync(path)) {
+    // eslint-disable-next-line import/no-dynamic-require, global-require
+    originalManifest = require(path);
   }
 
   const manifestFragments = [];
@@ -67,9 +79,12 @@ const collectManifest = ({ writeTo } = {}) => {
   });
 
   collector.once('end', () => {
-    const manifest = fragmentsToManifest(manifestFragments);
+    const manifest = mergeDeepRight(
+      originalManifest,
+      fragmentsToManifest(manifestFragments)
+    );
     // sync by design - it is done once on relatively small JSON
-    fs.writeFileSync(writeTo, JSON.stringify(manifest));
+    fs.writeFileSync(path, JSON.stringify(manifest));
   });
 
   return collector;
