@@ -1,4 +1,4 @@
-name: merge
+name: Master Build
 on:
   push:
     branches: [master]

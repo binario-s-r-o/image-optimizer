@@ -1,5 +1,5 @@
 # @binario/image-optimizer
-![merge](https://github.com/binario-s-r-o/image-optimizer/actions/workflows/merge.yml/badge.svg)
+![Build Master](https://github.com/binario-s-r-o/image-optimizer/actions/workflows/merge.yaml/badge.svg)
 
 This module provides an easy way to generate responsive image variants.
 
