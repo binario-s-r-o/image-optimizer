@@ -17,6 +17,8 @@
     "test": "mocha 'test/**/*.spec.js'",
     "test:cover": "nyc npm run test"
   },
+  "repository": "github:binario-s-r-o/image-optimizer",
+  "homepage": "https://github.com/binario-s-r-o/image-optimizer",
   "author": "binario",
   "license": "MIT",
   "dependencies": {
