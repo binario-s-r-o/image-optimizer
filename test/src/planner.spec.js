@@ -59,7 +59,7 @@ describe('planner', () => {
 
       const fl = prepareFormatList(lp, mockMeta);
 
-      expect(fl[2].sizes[1].sharp.format.custom).equals('setting');
+      expect(fl[2].sizes[1].sharp.format.options.custom).equals('setting');
     });
 
     it('should override global format settings with size specific format settings', () => {
@@ -76,7 +76,7 @@ describe('planner', () => {
 
       const fl = prepareFormatList(lp, mockMeta);
 
-      expect(fl[2].sizes[0].sharp.format.custom).equals('other');
+      expect(fl[2].sizes[0].sharp.format.options.custom).equals('other');
     });
   });
 });
