@@ -8,7 +8,6 @@ module.exports = {
     fallbackFormat: 'png',
   },
   sharpFormatSettings: {
-    // future enhancement - not implemented yet
     jpeg: { quality: 80 }, // https://sharp.pixelplumbing.com/api-output#jpeg
     png: {}, // https://sharp.pixelplumbing.com/api-output#png
     webp: {}, // https://sharp.pixelplumbing.com/api-output#webp
