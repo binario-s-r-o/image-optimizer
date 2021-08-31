@@ -25,6 +25,7 @@ const {
   gt,
   defaultTo,
   mergeDeepRight,
+  __,
 } = require('ramda');
 
 const DEFAULT_PRESET = require('./defaultPreset');
@@ -65,6 +66,7 @@ const computeFormatProps = curryN(3, (preset, format, size) =>
       pathOr({}, ['size', 'sharpFormatSettings', format]),
       pathOr({}, ['preset', 'sharpFormatSettings', format]),
     ]),
+    assoc('options', __, {}),
     assoc('id', format)
   )({ size, preset })
 );
